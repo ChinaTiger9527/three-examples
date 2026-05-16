@@ -1,0 +1,20 @@
+{
+  "name": "study-threejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vite": "^8.0.13"
+  },
+  "dependencies": {
+    "gsap": "^3.5.1",
+    "three": "^0.184.0"
+  }
+}
