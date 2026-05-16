@@ -45,6 +45,36 @@ window.addEventListener('resize', () => {
   renderer.setSize(sceneSize.width, sceneSize.height)
 })
 
+window.addEventListener('dblclick', () => {
+  const fullScreenElement = document.fullscreenElement || document.webkitFullscreenElement
+  const canvas = document.querySelector('canvas')
+  if (!fullScreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen()
+    } else if (canvas.webkitRequestFullscreen) {
+      canvas.webkitRequestFullscreen()
+    } else if (canvas.mozRequestFullScreen) {
+      canvas.mozRequestFullScreen()
+    } else if (canvas.msRequestFullscreen) {
+      canvas.msRequestFullscreen()
+    } else {
+      console.warn('浏览器不支持全屏 API')
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen()
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen()
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen()
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen()
+    } else {
+      console.warn('浏览器不支持退出全屏 API')
+    }
+  }
+})
+
 function animate() {
   requestAnimationFrame(animate)
   controls.update()
