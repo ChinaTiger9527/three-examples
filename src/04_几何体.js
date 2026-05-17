@@ -1,6 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import './style/03.css';
+import './static/style/03.css';
+import GUI from 'lil-gui';
+import gsap from 'gsap';
+
+const debugObject = {
+  color: '#00ff00',
+  subdivisions: 2
+}
 
 const sceneSize = {
   width: window.innerWidth,
@@ -8,27 +15,24 @@ const sceneSize = {
 }
 
 // Object 对象
-// const meth = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }))
+const meth = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }))
 
 // let floatArray = new Float32Array([
 //   -1, -1, 0,
 //   1, -1, 0,
 //   0, 1, 0
 // ])
-
-
-let floatArray = []
-let count = 10000
-for (let i = 0; i < count; i++) {
-  floatArray.push((Math.random() - 0.5))
-  floatArray.push((Math.random() - 0.5))
-  floatArray.push((Math.random() - 0.5))
-}
-console.log(floatArray)
-let geometry = new THREE.BufferGeometry()
-geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(floatArray), 3))
-
-const meth = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }))
+// let floatArray = []
+// let count = 10000
+// for (let i = 0; i < count; i++) {
+//   floatArray.push((Math.random() - 0.5))
+//   floatArray.push((Math.random() - 0.5))
+//   floatArray.push((Math.random() - 0.5))
+// }
+// console.log(floatArray)
+// let geometry = new THREE.BufferGeometry()
+// geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(floatArray), 3))
+// const meth = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }))
 
 
 // Scene 画布
@@ -51,6 +55,34 @@ scene.add(axesHelper);
 const controls = new OrbitControls(camera, document.querySelector('canvas'), scene)
 controls.enableDamping = true // 阻尼器
 
+
+// debug
+const gui = new GUI(
+  {
+    title: '控制台',
+    width: 370,
+    closeFolders: true,
+  }
+)
+const methFolder = gui.addFolder('Meth')
+// methFolder.open(false)
+methFolder.add(meth.position, 'x').min(-5).max(5).step(0.01)
+methFolder.add(meth.position, 'y').min(-5).max(5).step(0.01)
+methFolder.add(meth.position, 'z').min(-5).max(5).step(0.01)
+methFolder.add(meth, 'visible')
+methFolder.add(meth.material, 'wireframe')
+methFolder.addColor(debugObject, 'color').onChange((value) => {
+  meth.material.color.set(value) // three会自动调节颜色，导致色差，则用变量存储gui的颜色值，然后将材质颜色设置为这个值
+})
+debugObject.spin = () => {
+  gsap.to(meth.rotation, { y: meth.rotation.y + Math.PI * 0.5, duration: 1 })
+}
+methFolder.add(debugObject, 'spin')
+methFolder.add(debugObject, 'subdivisions').min(2).max(10).step(1).onFinishChange((value) => {
+  meth.geometry.dispose() // 释放旧的几何体资源
+  meth.geometry = new THREE.BoxGeometry(1, 1, 1, value, value, value) // 创建新的几何体并赋值给mesh
+})
+
 // Render 渲染器
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('canvas')
@@ -66,6 +98,19 @@ window.addEventListener('resize', () => {
   renderer.setSize(sceneSize.width, sceneSize.height)
 })
 
+// 显示隐藏控制台
+window.addEventListener('keydown', (event) => {
+  console.log('event', event.key)
+  if (event.key === 'Escape') {
+    if (gui._hidden) {
+      gui.show()
+    } else {
+      gui.hide()
+    }
+  }
+})
+
+// 全屏事件
 window.addEventListener('dblclick', () => {
   const fullScreenElement = document.fullscreenElement || document.webkitFullscreenElement
   const canvas = document.querySelector('canvas')
