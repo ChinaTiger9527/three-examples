@@ -14,9 +14,56 @@ const sceneSize = {
   height: window.innerHeight
 }
 
-// Object 对象
-const meth = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }))
+// 纹理
+// let image = new Image()
+// let texture = new THREE.Texture(image)
+// image.onload = () => {
+//   texture.needsUpdate = true
+// }
+// image.crossOrigin = 'anonymous'
+// image.src = 'https://threejs.org/manual/examples/resources/images/wall.jpg'
+let textureLoader = new THREE.TextureLoader()
+// textureLoader.onStart = () => {
+//   console.log('纹理开始加载')
+// }
+// textureLoader.onLoad = () => {
+//   console.log('纹理加载完成')
+// }
+// textureLoader.onProgress = (pro) => {
+//   console.log('纹理加载中', pro)
+// }
+// textureLoader.onError = (err) => {
+//   console.log('纹理加载失败', err)
+// }
+let texture = textureLoader.load('https://threejs.org/manual/examples/resources/images/wall.jpg', () => {
+  console.log('纹理加载完成')
+}, () => {
+  console.log('纹理加载中')
+}, () => {
+  console.log('纹理加载失败')
+}) // 也可以直接传入图片路径，底层会自动创建纹理对象并加载图片
 
+
+// texture.repeat.x = 2  // 设置纹理重复
+// texture.repeat.y = 3
+// texture.wrapS = THREE.RepeatWrapping // 设置纹理水平重复方式
+// texture.wrapT = THREE.RepeatWrapping // 设置纹理垂直重复方式
+// texture.offset.x = 0.5 // 设置纹理偏移
+// texture.offset.y = 0.5
+// texture.rotation = Math.PI / 4 // 设置纹理旋转
+// texture.center.set(0.5, 0.5) // 设置纹理旋转中心
+texture.generateMipmaps = false // 关闭纹理 mipmap
+// texture.minFilter = THREE.NearestFilter // 设置纹理缩小过滤器
+// texture.magFilter = THREE.NearestFilter // 设置纹理放大过滤器
+
+// Object 对象
+// const meth = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: debugObject.color, wireframe: true }))
+const meth = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ map: texture, wireframe: false }))
+console.log('uv坐标', meth.geometry.attributes.uv)
+const cone = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 4), new THREE.MeshBasicMaterial({ map: texture, wireframe: false }))
+cone.position.x = 3
+const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(1, 1, 4, 8, 1), new THREE.MeshBasicMaterial({ map: texture, wireframe: false }))
+capsule.position.x = -3
 // let floatArray = new Float32Array([
 //   -1, -1, 0,
 //   1, -1, 0,
@@ -41,10 +88,12 @@ const scene = new THREE.Scene({
 })
 
 scene.add(meth)
+scene.add(cone)
+scene.add(capsule)
 
 // Camera 摄像机
 const camera = new THREE.PerspectiveCamera(75, sceneSize.width / sceneSize.height, 0.1, 1000)
-camera.position.z = 3
+camera.position.z = 8
 scene.add(camera)
 
 // AxesHelper 坐标尺

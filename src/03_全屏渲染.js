@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import './style/03.css';
+import './static/style/03.css';
 
 const sceneSize = {
   width: window.innerWidth,
