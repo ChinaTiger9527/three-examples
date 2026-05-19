@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import GUI from 'lil-gui';
 import gsap from 'gsap';
-import { syncCanvasSize } from '@/examples/shared/canvas';
+import { setControlsTarget, watchCanvasSize } from '@/examples/shared/canvas';
 
 const environmentMapUrl = new URL(
   '../../static/image/glasshouse_interior_4k.hdr',
@@ -121,6 +121,7 @@ export default function mountExample({ canvas, container }) {
 
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
+  setControlsTarget(controls, [box, plane, sphere, torus]);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
@@ -133,12 +134,7 @@ export default function mountExample({ canvas, container }) {
     scene.background = environmentTexture;
   });
 
-  const handleResize = () => {
-    syncCanvasSize(renderer, camera, canvas, sceneSize);
-  };
-
-  window.addEventListener('resize', handleResize);
-  handleResize();
+  const stopWatchingSize = watchCanvasSize(renderer, camera, canvas, sceneSize);
 
   let frameId = 0;
   const animate = () => {
@@ -151,7 +147,7 @@ export default function mountExample({ canvas, container }) {
 
   return () => {
     cancelAnimationFrame(frameId);
-    window.removeEventListener('resize', handleResize);
+    stopWatchingSize();
     gui.destroy();
     controls.dispose();
     box.geometry.dispose();

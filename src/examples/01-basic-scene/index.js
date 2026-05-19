@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { syncCanvasSize } from '@/examples/shared/canvas';
+import { watchCanvasSize } from '@/examples/shared/canvas';
 
 export default function mountExample({ canvas }) {
   const cursor = { x: 0, y: 0 };
@@ -53,13 +53,9 @@ export default function mountExample({ canvas }) {
     cursor.y = (event.clientY - rect.top) / rect.height - 0.5;
   };
 
-  const handleResize = () => {
-    syncCanvasSize(renderer, camera, canvas, sceneSize);
-  };
+  const stopWatchingSize = watchCanvasSize(renderer, camera, canvas, sceneSize);
 
   window.addEventListener('mousemove', handleMouseMove);
-  window.addEventListener('resize', handleResize);
-  handleResize();
 
   let frameId = 0;
   const tick = () => {
@@ -79,7 +75,7 @@ export default function mountExample({ canvas }) {
   return () => {
     cancelAnimationFrame(frameId);
     window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('resize', handleResize);
+    stopWatchingSize();
     cube1.geometry.dispose();
     cube1.material.dispose();
     cube2.geometry.dispose();

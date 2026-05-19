@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-import { syncCanvasSize } from '@/examples/shared/canvas';
+import { watchCanvasSize } from '@/examples/shared/canvas';
 
 export default function mountExample({ canvas, container }) {
   const guiParams = {
@@ -132,12 +132,7 @@ export default function mountExample({ canvas, container }) {
 
   const clock = new THREE.Clock();
 
-  const handleResize = () => {
-    syncCanvasSize(renderer, camera, canvas, sceneSize);
-  };
-
-  window.addEventListener('resize', handleResize);
-  handleResize();
+  const stopWatchingSize = watchCanvasSize(renderer, camera, canvas, sceneSize);
 
   let frameId = 0;
   const animate = () => {
@@ -154,7 +149,7 @@ export default function mountExample({ canvas, container }) {
 
   return () => {
     cancelAnimationFrame(frameId);
-    window.removeEventListener('resize', handleResize);
+    stopWatchingSize();
     gui.destroy();
     controls.dispose();
     material?.dispose();

@@ -232,7 +232,7 @@ onBeforeUnmount(() => {
 }
 </style>
 <style lang="scss">
-div:has(.runner__canvas){
+div > &:has(.runner__canvas) {
   position: relative;
 }
 canvas + .lil-gui.lil-root {

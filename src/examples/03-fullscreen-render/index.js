@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { syncCanvasSize } from '@/examples/shared/canvas';
+import { watchCanvasSize } from '@/examples/shared/canvas';
 
 export default function mountExample({ canvas }) {
   const sceneSize = {
@@ -32,9 +32,7 @@ export default function mountExample({ canvas }) {
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
-  const handleResize = () => {
-    syncCanvasSize(renderer, camera, canvas, sceneSize);
-  };
+  const stopWatchingSize = watchCanvasSize(renderer, camera, canvas, sceneSize);
 
   const toggleFullscreen = async () => {
     const fullscreenElement =
@@ -56,9 +54,7 @@ export default function mountExample({ canvas }) {
     }
   };
 
-  window.addEventListener('resize', handleResize);
   canvas.addEventListener('dblclick', toggleFullscreen);
-  handleResize();
 
   let frameId = 0;
   const animate = () => {
@@ -71,7 +67,7 @@ export default function mountExample({ canvas }) {
 
   return () => {
     cancelAnimationFrame(frameId);
-    window.removeEventListener('resize', handleResize);
+    stopWatchingSize();
     canvas.removeEventListener('dblclick', toggleFullscreen);
     controls.dispose();
     geometry.dispose();

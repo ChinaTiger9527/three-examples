@@ -9,21 +9,33 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+    meta: {
+      layout: 'default',
+    },
   },
   {
     path: '/examples',
     name: 'examples',
     component: ExamplesView,
+    meta: {
+      layout: 'default',
+    },
   },
   {
     path: '/examples/:slug',
     name: 'example-runner',
     component: ExampleRunnerView,
+    meta: {
+      layout: 'default',
+    },
   },
   {
     path: '/scroll-lab',
     name: 'scroll-lab',
     component: ScrollLabView,
+    meta: {
+      layout: 'immersive',
+    },
   },
   {
     path: '/:pathMatch(.*)*',

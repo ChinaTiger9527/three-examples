@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { syncCanvasSize } from '@/examples/shared/canvas';
+import { setControlsTarget, watchCanvasSize } from '@/examples/shared/canvas';
 
 const matcapUrl = new URL('../../static/image/matcap/06.png', import.meta.url).href;
 const fontUrl = new URL(
@@ -71,15 +71,10 @@ export default function mountExample({ canvas }) {
     textGeometry.center();
     textMesh = new THREE.Mesh(textGeometry, material);
     scene.add(textMesh);
-    camera.lookAt(textMesh.position);
+    setControlsTarget(controls, textMesh);
   });
 
-  const handleResize = () => {
-    syncCanvasSize(renderer, camera, canvas, sceneSize);
-  };
-
-  window.addEventListener('resize', handleResize);
-  handleResize();
+  const stopWatchingSize = watchCanvasSize(renderer, camera, canvas, sceneSize);
 
   let frameId = 0;
   const animate = () => {
@@ -93,7 +88,7 @@ export default function mountExample({ canvas }) {
   return () => {
     disposed = true;
     cancelAnimationFrame(frameId);
-    window.removeEventListener('resize', handleResize);
+    stopWatchingSize();
     controls.dispose();
     textGeometry?.dispose();
     torusGeometry.dispose();

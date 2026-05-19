@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
 import gsap from 'gsap';
-import { syncCanvasSize } from '@/examples/shared/canvas';
+import { setControlsTarget, watchCanvasSize } from '@/examples/shared/canvas';
 
 export default function mountExample({ canvas, container }) {
   const debugObject = {
@@ -55,6 +55,7 @@ export default function mountExample({ canvas, container }) {
 
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
+  setControlsTarget(controls, [mesh, cone, capsule]);
 
   const gui = new GUI({
     container,
@@ -90,9 +91,7 @@ export default function mountExample({ canvas, container }) {
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
-  const handleResize = () => {
-    syncCanvasSize(renderer, camera, canvas, sceneSize);
-  };
+  const stopWatchingSize = watchCanvasSize(renderer, camera, canvas, sceneSize);
 
   const handleKeydown = (event) => {
     if (event.key === 'Escape') {
@@ -124,10 +123,8 @@ export default function mountExample({ canvas, container }) {
     }
   };
 
-  window.addEventListener('resize', handleResize);
   window.addEventListener('keydown', handleKeydown);
   canvas.addEventListener('dblclick', toggleFullscreen);
-  handleResize();
 
   let frameId = 0;
   const animate = () => {
@@ -140,7 +137,7 @@ export default function mountExample({ canvas, container }) {
 
   return () => {
     cancelAnimationFrame(frameId);
-    window.removeEventListener('resize', handleResize);
+    stopWatchingSize();
     window.removeEventListener('keydown', handleKeydown);
     canvas.removeEventListener('dblclick', toggleFullscreen);
     gui.destroy();
