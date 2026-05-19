@@ -60,22 +60,24 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
-import { useRoute, RouterLink } from 'vue-router';
-import { exampleLoaders, getExampleBySlug } from '@/data/examples';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { useRoute, RouterLink } from "vue-router";
+import { exampleLoaders, getExampleBySlug } from "@/data/examples";
 
 const route = useRoute();
 const canvasRef = ref(null);
 const stageRef = ref(null);
 const loading = ref(false);
-const error = ref('');
+const error = ref("");
 
-const example = computed(() => getExampleBySlug(String(route.params.slug ?? '')));
+const example = computed(() =>
+  getExampleBySlug(String(route.params.slug ?? "")),
+);
 
 let cleanup = null;
 
 function resetCurrentExample() {
-  if (typeof cleanup === 'function') {
+  if (typeof cleanup === "function") {
     cleanup();
     cleanup = null;
   }
@@ -83,7 +85,7 @@ function resetCurrentExample() {
 
 async function loadExample(slug) {
   resetCurrentExample();
-  error.value = '';
+  error.value = "";
 
   if (!slug || !exampleLoaders[slug]) {
     return;
@@ -96,8 +98,8 @@ async function loadExample(slug) {
     const module = await exampleLoaders[slug]();
     const mountExample = module.default ?? module.mountExample;
 
-    if (typeof mountExample !== 'function') {
-      throw new Error('示例入口缺失，无法加载。');
+    if (typeof mountExample !== "function") {
+      throw new Error("示例入口缺失，无法加载。");
     }
 
     cleanup = mountExample({
@@ -106,7 +108,7 @@ async function loadExample(slug) {
     });
   } catch (loadError) {
     error.value =
-      loadError instanceof Error ? loadError.message : '示例加载失败。';
+      loadError instanceof Error ? loadError.message : "示例加载失败。";
   } finally {
     loading.value = false;
   }
@@ -115,7 +117,7 @@ async function loadExample(slug) {
 watch(
   () => route.params.slug,
   (slug) => {
-    loadExample(String(slug ?? ''));
+    loadExample(String(slug ?? ""));
   },
   { immediate: true },
 );
@@ -126,8 +128,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-@use '@/styles/variables' as *;
-@use '@/styles/mixins' as *;
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
 
 .runner {
   display: grid;
@@ -227,5 +229,16 @@ onBeforeUnmount(() => {
   .runner__header {
     display: grid;
   }
+}
+</style>
+<style lang="scss">
+div:has(.runner__canvas){
+  position: relative;
+}
+canvas + .lil-gui.lil-root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10000;
 }
 </style>

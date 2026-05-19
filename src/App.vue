@@ -36,7 +36,6 @@ const appStore = useAppStore();
 const navItems = [
   { label: '首页', to: '/' },
   { label: '示例目录', to: '/examples' },
-  { label: '滚动实验页', to: '/scroll-lab' },
 ];
 </script>
 

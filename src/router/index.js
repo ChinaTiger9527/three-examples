@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import ExamplesView from '@/views/ExamplesView.vue';
 import ExampleRunnerView from '@/views/ExampleRunnerView.vue';
-import ScrollLabView from '@/09_基于页面滚动/index.vue';
+import ScrollLabView from '@/examples/09-scroll-animation/index.vue';
 
 const routes = [
   {
