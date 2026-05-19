@@ -1,0 +1,17 @@
+@use './variables' as *;
+
+@mixin panel {
+  padding: 1.5rem;
+  border: 1px solid $border;
+  border-radius: 1.5rem;
+  background: $surface;
+  box-shadow: $shadow;
+  backdrop-filter: blur(18px);
+}
+
+@mixin card {
+  padding: 1.25rem;
+  border: 1px solid $border;
+  border-radius: 1.25rem;
+  background: $surface-strong;
+}
