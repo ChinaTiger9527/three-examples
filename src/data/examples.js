@@ -79,6 +79,14 @@ export const examples = [
     note: '物理引擎 Cannon-es 示例。',
     to: '/examples/cannon-es',
   },
+  {
+    id: '11',
+    slug: 'gltf-loader',
+    name: 'GLTFLoader',
+    file: '@/examples/11-GLTFLoader/index.js',
+    note: '加载和显示 GLTF 模型。',
+    to: '/examples/gltf-loader',
+  },
 ];
 
 export const exampleLoaders = {
@@ -91,6 +99,7 @@ export const exampleLoaders = {
   'lights-shadows': () => import('@/examples/07-lights-shadows/index.js'),
   particles: () => import('@/examples/08-particles/index.js'),
   'cannon-es': () => import('@/examples/10-cannon-es/index.js'),
+  'gltf-loader': () => import('@/examples/11-GLTFLoader/index.js'),
 };
 
 export function getExampleBySlug(slug) {

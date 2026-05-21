@@ -40,8 +40,6 @@ export default function mountExample({ canvas, container }) {
     1000,
   );
   camera.position.set(4, 6, 6)
-  camera.position.y = 6;
-  camera.position.z = 6;
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.shadowMap.enabled = true; // 启用阴影
