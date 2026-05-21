@@ -9,7 +9,7 @@
 
     <div class="examples__list">
       <RouterLink
-        v-for="example in examples"
+        v-for="example in descenExample"
         :key="example.id"
         class="example-card"
         :to="example.to"
@@ -27,13 +27,16 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
-import { examples } from '@/data/examples';
+import { RouterLink } from "vue-router";
+import { examples } from "@/data/examples";
+import { ref } from "vue";
+let descenExample = ref([...examples].reverse());
+console.log("descenExample", descenExample);
 </script>
 
 <style scoped lang="scss">
-@use '@/styles/variables' as *;
-@use '@/styles/mixins' as *;
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
 
 .examples {
   @include panel;
