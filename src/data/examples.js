@@ -71,6 +71,14 @@ export const examples = [
     note: '滚动驱动的页面叙事实验。',
     to: '/scroll-lab',
   },
+  {
+    id: '10',
+    slug: 'cannon-es',
+    name: 'Cannon-es',
+    file: '@/examples/10-cannon-es/index.js',
+    note: '物理引擎 Cannon-es 示例。',
+    to: '/examples/cannon-es',
+  },
 ];
 
 export const exampleLoaders = {
@@ -82,6 +90,7 @@ export const exampleLoaders = {
   text: () => import('@/examples/06-text/index.js'),
   'lights-shadows': () => import('@/examples/07-lights-shadows/index.js'),
   particles: () => import('@/examples/08-particles/index.js'),
+  'cannon-es': () => import('@/examples/10-cannon-es/index.js'),
 };
 
 export function getExampleBySlug(slug) {
