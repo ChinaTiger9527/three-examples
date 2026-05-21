@@ -87,6 +87,14 @@ export const examples = [
     note: '加载和显示 GLTF 模型。',
     to: '/examples/gltf-loader',
   },
+  {
+    id: '12',
+    slug: 'raycaster',
+    name: 'Raycaster',
+    file: '@/examples/12-raycaster/index.js',
+    note: '射线投射示例。',
+    to: '/examples/raycaster',
+  }
 ];
 
 export const exampleLoaders = {
@@ -100,6 +108,7 @@ export const exampleLoaders = {
   particles: () => import('@/examples/08-particles/index.js'),
   'cannon-es': () => import('@/examples/10-cannon-es/index.js'),
   'gltf-loader': () => import('@/examples/11-GLTFLoader/index.js'),
+  raycaster: () => import('@/examples/12-raycaster/index.js'),
 };
 
 export function getExampleBySlug(slug) {
