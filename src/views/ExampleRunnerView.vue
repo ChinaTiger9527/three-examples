@@ -23,11 +23,17 @@
     <div
       ref="stageRef"
       class="runner__stage"
+      :style="stageStyle"
     >
-      <canvas
-        ref="canvasRef"
-        class="runner__canvas"
-      />
+      <div
+        class="runner__viewport"
+        :style="viewportStyle"
+      >
+        <canvas
+          ref="canvasRef"
+          class="runner__canvas"
+        />
+      </div>
 
       <div
         v-if="loading"
@@ -60,7 +66,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute, RouterLink } from "vue-router";
 import { exampleLoaders, getExampleBySlug } from "@/data/examples";
 
@@ -69,6 +75,25 @@ const canvasRef = ref(null);
 const stageRef = ref(null);
 const loading = ref(false);
 const error = ref("");
+const viewportWidth = ref(typeof window !== "undefined" ? window.innerWidth : 1200);
+
+const PC_BASE_WIDTH = 1200;
+const PC_BASE_HEIGHT = 720;
+
+const viewportScale = computed(() => {
+  const currentWidth = Math.max(320, viewportWidth.value || 1200);
+  return Math.min(1, currentWidth / PC_BASE_WIDTH);
+});
+
+const viewportStyle = computed(() => ({
+  width: `${PC_BASE_WIDTH}px`,
+  height: `${PC_BASE_HEIGHT}px`,
+  transform: `scale(${viewportScale.value})`,
+}));
+
+const stageStyle = computed(() => ({
+  height: `${Math.round(PC_BASE_HEIGHT * viewportScale.value)}px`,
+}));
 
 const example = computed(() =>
   getExampleBySlug(String(route.params.slug ?? "")),
@@ -76,6 +101,10 @@ const example = computed(() =>
 
 let cleanup = null;
 let activeLoadId = 0;
+
+function updateViewportWidth() {
+  viewportWidth.value = window.innerWidth;
+}
 
 function resetCurrentExample() {
   if (typeof cleanup === "function") {
@@ -146,6 +175,14 @@ watch(
 onBeforeUnmount(() => {
   activeLoadId += 1;
   resetCurrentExample();
+  window.removeEventListener("resize", updateViewportWidth);
+  window.visualViewport?.removeEventListener("resize", updateViewportWidth);
+});
+
+onMounted(() => {
+  updateViewportWidth();
+  window.addEventListener("resize", updateViewportWidth);
+  window.visualViewport?.addEventListener("resize", updateViewportWidth);
 });
 </script>
 
@@ -210,12 +247,19 @@ onBeforeUnmount(() => {
 
 .runner__stage {
   position: relative;
-  height: clamp(420px, 72vh, 820px);
+  width: 100%;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.5rem;
   background: #040814;
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+}
+
+.runner__viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
 }
 
 .runner__canvas {

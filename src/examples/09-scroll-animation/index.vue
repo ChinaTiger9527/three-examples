@@ -21,6 +21,7 @@
     <canvas
       ref="canvasRef"
       class="runner__canvas"
+      :style="canvasStyle"
     ></canvas>
     <div class="content">
       <div class="box box_1">MY PROJECT</div>
@@ -31,7 +32,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import * as THREE from "three";
 import gsap from "gsap";
 
@@ -41,10 +42,25 @@ const particleTextureUrl = new URL(
 ).href;
 
 const canvasRef = ref(null);
-const sceneSize = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-};
+const viewportWidth = ref(typeof window !== "undefined" ? window.innerWidth : 1200);
+const viewportHeight = ref(typeof window !== "undefined" ? window.innerHeight : 720);
+
+const PC_BASE_WIDTH = 1200;
+const PC_BASE_HEIGHT = 720;
+
+const viewportScale = computed(() => {
+  const width = Math.max(320, viewportWidth.value || PC_BASE_WIDTH);
+  const height = Math.max(320, viewportHeight.value || PC_BASE_HEIGHT);
+  const widthScale = width / PC_BASE_WIDTH;
+  const heightScale = height / PC_BASE_HEIGHT;
+  return Math.max(widthScale, heightScale);
+});
+
+const canvasStyle = computed(() => ({
+  width: `${PC_BASE_WIDTH}px`,
+  height: `${PC_BASE_HEIGHT}px`,
+  transform: `translate(-50%, -50%) scale(${viewportScale.value})`,
+}));
 
 let cleanupThree = null;
 
@@ -71,7 +87,7 @@ function initThree() {
   // 相机
   const camera = new THREE.PerspectiveCamera(
     75,
-    sceneSize.width / sceneSize.height,
+    PC_BASE_WIDTH / PC_BASE_HEIGHT,
     0.5,
     1000,
   );
@@ -84,8 +100,8 @@ function initThree() {
     alpha: true,
     antialias: true,
   });
-  renderer.setSize(sceneSize.width, sceneSize.height);
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(PC_BASE_WIDTH, PC_BASE_HEIGHT, false);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   const material = new THREE.MeshStandardMaterial();
   // 创建一个圆环结
@@ -166,8 +182,9 @@ function initThree() {
   animate();
 
   function mousemoveEventHandler(event) {
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     gsap.to(camera.rotation, {
       y: mouseX * 0.1,
       x: mouseY * 0.1,
@@ -202,11 +219,8 @@ function initThree() {
   window.addEventListener("scroll", scrollEventHandler);
 
   function resizeEventHandler() {
-    sceneSize.width = window.innerWidth;
-    sceneSize.height = window.innerHeight;
-    camera.aspect = sceneSize.width / sceneSize.height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(sceneSize.width, sceneSize.height);
+    viewportWidth.value = window.innerWidth;
+    viewportHeight.value = window.innerHeight;
   }
   window.addEventListener("resize", resizeEventHandler);
 
@@ -276,10 +290,9 @@ function initThree() {
 
 .runner__canvas {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
 }
 .box {
   width: 100%;
