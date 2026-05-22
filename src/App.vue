@@ -1,7 +1,10 @@
 <template>
   <RouterView v-slot="{ Component }">
     <component :is="layoutComponent">
-      <component :is="Component" />
+      <component
+        :is="Component"
+        :key="route.fullPath"
+      />
     </component>
   </RouterView>
 </template>

@@ -108,10 +108,11 @@ export default function mountExample({ canvas, container }) {
     stopWatchingSize();
     controls.dispose();
     cubeCamera.clear(renderer, scene);
-    cubeCamera.dispose();
     cubeRenderTarget.dispose();
-    torus?.dispose();
-    torusKnot?.dispose();
+    torus?.geometry.dispose();
+    torus?.material.dispose();
+    torusKnot?.geometry.dispose();
+    torusKnot?.material.dispose();
     renderer?.dispose();
   };
 }

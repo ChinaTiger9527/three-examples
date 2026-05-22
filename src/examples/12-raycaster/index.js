@@ -19,7 +19,7 @@ export default function mountExample({ canvas, container }) {
     0.3,
     1000,
   );
-  camera.position.set(0, 2, 3)
+  camera.position.set(0, 3, 3)
 
   // 环境光
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);

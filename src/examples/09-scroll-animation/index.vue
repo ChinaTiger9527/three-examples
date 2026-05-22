@@ -215,19 +215,18 @@ function initThree() {
     window.removeEventListener("mousemove", mousemoveEventHandler);
     window.removeEventListener("scroll", scrollEventHandler);
     window.removeEventListener("resize", resizeEventHandler);
-    stopWatchingSize();
     gsap.killTweensOf(cube.rotation);
     gsap.killTweensOf(torusKnot.rotation);
     gsap.killTweensOf(torus.rotation);
     cube.geometry.dispose();
     torusKnot.geometry.dispose();
     torus.geometry.dispose();
-    axesHelper.geometry.dispose();
-    if (Array.isArray(axesHelper.material)) {
-      axesHelper.material.forEach((helperMaterial) => helperMaterial.dispose());
-    } else {
-      axesHelper.material.dispose();
-    }
+    // axesHelper.geometry.dispose();
+    // if (Array.isArray(axesHelper.material)) {
+    //   axesHelper.material.forEach((helperMaterial) => helperMaterial.dispose());
+    // } else {
+    //   axesHelper.material.dispose();
+    // }
     material.dispose();
     renderer.dispose();
   };

@@ -75,6 +75,7 @@ const example = computed(() =>
 );
 
 let cleanup = null;
+let activeLoadId = 0;
 
 function resetCurrentExample() {
   if (typeof cleanup === "function") {
@@ -84,6 +85,7 @@ function resetCurrentExample() {
 }
 
 async function loadExample(slug) {
+  const loadId = ++activeLoadId;
   resetCurrentExample();
   error.value = "";
 
@@ -96,21 +98,40 @@ async function loadExample(slug) {
 
   try {
     const module = await exampleLoaders[slug]();
+    if (loadId !== activeLoadId) {
+      return;
+    }
+
     const mountExample = module.default ?? module.mountExample;
 
     if (typeof mountExample !== "function") {
       throw new Error("示例入口缺失，无法加载。");
     }
 
-    cleanup = mountExample({
+    const dispose = mountExample({
       canvas: canvasRef.value,
       container: stageRef.value,
     });
+
+    if (loadId !== activeLoadId) {
+      if (typeof dispose === "function") {
+        dispose();
+      }
+      return;
+    }
+
+    cleanup = typeof dispose === "function" ? dispose : null;
   } catch (loadError) {
+    if (loadId !== activeLoadId) {
+      return;
+    }
+
     error.value =
       loadError instanceof Error ? loadError.message : "示例加载失败。";
   } finally {
-    loading.value = false;
+    if (loadId === activeLoadId) {
+      loading.value = false;
+    }
   }
 }
 
@@ -123,6 +144,7 @@ watch(
 );
 
 onBeforeUnmount(() => {
+  activeLoadId += 1;
   resetCurrentExample();
 });
 </script>

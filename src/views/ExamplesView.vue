@@ -3,7 +3,7 @@
     <header class="examples__header">
       <div>
         <p class="examples__eyebrow">示例目录</p>
-        <h2>01-08 已拆分到独立文件夹，并支持逐个访问</h2>
+        <h2>THREE 进阶之路</h2>
       </div>
     </header>
 
