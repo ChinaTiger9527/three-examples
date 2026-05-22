@@ -94,6 +94,14 @@ export const examples = [
     file: '@/examples/12-raycaster/index.js',
     note: '射线投射示例。',
     to: '/examples/raycaster',
+  },
+  {
+    id: '13',
+    slug: 'environment-map',
+    name: '环境贴图',
+    file: '@/examples/13-environment-map/index.js',
+    note: '环境贴图示例。',
+    to: '/examples/environment-map',
   }
 ];
 
@@ -109,6 +117,7 @@ export const exampleLoaders = {
   'cannon-es': () => import('@/examples/10-cannon-es/index.js'),
   'gltf-loader': () => import('@/examples/11-GLTFLoader/index.js'),
   raycaster: () => import('@/examples/12-raycaster/index.js'),
+  'environment-map': () => import('@/examples/13-environment-map/index.js'),
 };
 
 export function getExampleBySlug(slug) {
