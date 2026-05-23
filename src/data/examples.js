@@ -102,6 +102,13 @@ export const examples = [
     file: '@/examples/13-environment-map/index.js',
     note: '环境贴图示例。',
     to: '/examples/environment-map',
+  }, {
+    id: '14',
+    slug: 'realistic-render',
+    name: '更真实的渲染',
+    file: '@/examples/14-realistic-render/index.js',
+    note: '实现更真实的环境反射。',
+    to: '/examples/realistic-render',
   }
 ];
 
@@ -118,6 +125,7 @@ export const exampleLoaders = {
   'gltf-loader': () => import('@/examples/11-GLTFLoader/index.js'),
   raycaster: () => import('@/examples/12-raycaster/index.js'),
   'environment-map': () => import('@/examples/13-environment-map/index.js'),
+  'realistic-render': () => import('@/examples/14-realistic-render/index.js'),
 };
 
 export function getExampleBySlug(slug) {
