@@ -138,6 +138,9 @@ export default function mountExample({ canvas, container }) {
   gui.add(directionalLight.position, 'x').min(- 10).max(10).step(0.001).name('lightX')
   gui.add(directionalLight.position, 'y').min(- 10).max(10).step(0.001).name('lightY')
   gui.add(directionalLight.position, 'z').min(- 10).max(10).step(0.001).name('lightZ')
+  gui.add(directionalLight, 'castShadow')
+  gui.add(directionalLight.shadow, 'normalBias').min(- 0.05).max(0.05).step(0.001) // 设置阴影偏移，防止阴影出现锯齿
+  gui.add(directionalLight.shadow, 'bias').min(- 0.05).max(0.05).step(0.001) // 设置阴影偏移，防止阴影出现锯齿
 
 
   // Target
