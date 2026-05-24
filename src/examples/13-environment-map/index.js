@@ -8,6 +8,7 @@ import { GroundedSkybox } from 'three/addons/objects/GroundedSkybox.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 export default function mountExample({ canvas, container }) {
+  const assetBaseUrl = import.meta.env.BASE_URL;
   const sceneSize = {
     width: canvas.clientWidth || window.innerWidth,
     height: canvas.clientHeight || window.innerHeight,
@@ -33,7 +34,7 @@ export default function mountExample({ canvas, container }) {
 
   const hdrLoader = new HDRLoader();
   let cubeTexture = null;
-  hdrLoader.load('/src/static/image/environment-map/2/2k.hdr', (ground) => {
+  hdrLoader.load(`${assetBaseUrl}image/environment-map/2/2k.hdr`, (ground) => {
     cubeTexture = ground;
     cubeTexture.mapping = THREE.EquirectangularReflectionMapping;
     scene.background = cubeTexture;
@@ -42,7 +43,7 @@ export default function mountExample({ canvas, container }) {
 
   let moduleDamagedHelmet = null;
   const gltfLoader = new GLTFLoader();
-  gltfLoader.load('/src/static/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf', (gltf) => {
+  gltfLoader.load(`${assetBaseUrl}gltf/DamagedHelmet/glTF/DamagedHelmet.gltf`, (gltf) => {
     moduleDamagedHelmet = gltf.scene;
     moduleDamagedHelmet.position.set(1, 0, 0);
     moduleDamagedHelmet.traverse((child) => {

@@ -6,9 +6,9 @@ import { Reflector } from 'three/addons/objects/Reflector.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { watchCanvasSize } from '@/examples/shared/canvas';
 
-const michelleUrl = '/src/static/gltf/three/Michelle.glb';
-const soldierUrl = '/src/static/gltf/three/Soldier.glb';
-const environmentMapUrl = '/src/static/image/environment-map/0/2k.hdr';
+const michelleUrl = `${import.meta.env.BASE_URL}gltf/three/Michelle.glb`;
+const soldierUrl = `${import.meta.env.BASE_URL}gltf/three/Soldier.glb`;
+const environmentMapUrl = `${import.meta.env.BASE_URL}image/environment-map/0/2k.hdr`;
 
 // 示例入口：初始化场景、加载资源并返回销毁函数。
 export default function mountExample({ canvas }) {

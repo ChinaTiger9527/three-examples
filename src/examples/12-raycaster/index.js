@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 export default function mountExample({ canvas, container }) {
+  const assetBaseUrl = import.meta.env.BASE_URL;
   const sceneSize = {
     width: canvas.clientWidth || window.innerWidth,
     height: canvas.clientHeight || window.innerHeight,
@@ -66,7 +67,7 @@ export default function mountExample({ canvas, container }) {
   dracoLoader.setDecoderPath('');
   gltfloader.setDRACOLoader(dracoLoader);
   let duckModule = null
-  gltfloader.load('/src/static/gltf/Duck/glTF-Binary/Duck.glb', (gltf) => {
+  gltfloader.load(`${assetBaseUrl}gltf/Duck/glTF-Binary/Duck.glb`, (gltf) => {
     duckModule = gltf
     scene.add(gltf.scene);
   });

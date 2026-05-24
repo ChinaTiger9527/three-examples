@@ -13,6 +13,7 @@ import gsap from 'gsap';
 import { ref } from 'vue';
 
 export default function mountExample({ canvas, container }) {
+  const assetBaseUrl = import.meta.env.BASE_URL;
   const sceneSize = {
     width: canvas.clientWidth || window.innerWidth,
     height: canvas.clientHeight || window.innerHeight,
@@ -55,7 +56,7 @@ export default function mountExample({ canvas, container }) {
   // 加载场景
   const hdrLoader = new HDRLoader(loadingManager);
   let cubeTexture = null;
-  hdrLoader.load('/src/static/image/environment-map/2/2k.hdr', (ground) => {
+  hdrLoader.load(`${assetBaseUrl}image/environment-map/2/2k.hdr`, (ground) => {
     cubeTexture = ground;
     cubeTexture.mapping = THREE.EquirectangularReflectionMapping;
     scene.background = cubeTexture;
@@ -65,7 +66,7 @@ export default function mountExample({ canvas, container }) {
   // 加载模型
   let moduleDamagedHelmet = null;
   const gltfLoader = new GLTFLoader(loadingManager);
-  gltfLoader.load('/src/static/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf', (gltf) => {
+  gltfLoader.load(`${assetBaseUrl}gltf/DamagedHelmet/glTF/DamagedHelmet.gltf`, (gltf) => {
     moduleDamagedHelmet = gltf.scene;
     moduleDamagedHelmet.traverse((child) => {
       if (!child.isMesh || !child.material) {

@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 export default function mountExample({ canvas, container }) {
+  const assetBaseUrl = import.meta.env.BASE_URL;
   const sceneSize = {
     width: canvas.clientWidth || window.innerWidth,
     height: canvas.clientHeight || window.innerHeight,
@@ -50,7 +51,7 @@ export default function mountExample({ canvas, container }) {
   dracoLoader.setDecoderPath('');
   gltfloader.setDRACOLoader(dracoLoader);
   let mixAdmixer = null
-  gltfloader.load('/src/static/gltf/Fox/glTF/Fox.gltf', (gltf) => {
+  gltfloader.load(`${assetBaseUrl}gltf/Fox/glTF/Fox.gltf`, (gltf) => {
     console.log('gltf', gltf)
     gltf.scene.scale.set(0.04, 0.04, 0.04);
     mixAdmixer = new THREE.AnimationMixer(gltf.scene); // 创建动画混合器

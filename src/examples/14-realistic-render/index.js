@@ -8,6 +8,7 @@ import { GroundedSkybox } from 'three/addons/objects/GroundedSkybox.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 export default function mountExample({ canvas, container }) {
+  const assetBaseUrl = import.meta.env.BASE_URL;
   const sceneSize = {
     width: canvas.clientWidth || window.innerWidth,
     height: canvas.clientHeight || window.innerHeight,
@@ -63,7 +64,7 @@ export default function mountExample({ canvas, container }) {
   // HDRLoader 加载环境贴图
   const hdrLoader = new HDRLoader();
   let cubeTexture = null;
-  hdrLoader.load('/src/static/image/environment-map/0/2k.hdr', (ground) => {
+  hdrLoader.load(`${assetBaseUrl}image/environment-map/0/2k.hdr`, (ground) => {
     cubeTexture = ground;
     cubeTexture.mapping = THREE.EquirectangularReflectionMapping;
     scene.background = cubeTexture;
@@ -72,7 +73,7 @@ export default function mountExample({ canvas, container }) {
 
   // GLTFLoader 加载模型
   const gltfLoader = new GLTFLoader()
-  gltfLoader.load('/src/static/gltf/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
+  gltfLoader.load(`${assetBaseUrl}gltf/FlightHelmet/glTF/FlightHelmet.gltf`, (gltf) => {
     gltf.scene.scale.set(10, 10, 10)
     scene.add(gltf.scene);
     gltf.scene.traverse((child) => {
@@ -87,9 +88,9 @@ export default function mountExample({ canvas, container }) {
   // 墙体
   let textureLoader = new THREE.TextureLoader();
   let wallTure = {
-    map: textureLoader.load('/src/static/image/textures/castle_brick_broken_06/castle_brick_broken_06_diff_1k.jpg'),
-    normalMap: textureLoader.load('/src/static/image/textures/castle_brick_broken_06/castle_brick_broken_06_nor_gl_1k.png'),
-    aoMap: textureLoader.load('/src/static/image/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg'),
+    map: textureLoader.load(`${assetBaseUrl}image/textures/castle_brick_broken_06/castle_brick_broken_06_diff_1k.jpg`),
+    normalMap: textureLoader.load(`${assetBaseUrl}image/textures/castle_brick_broken_06/castle_brick_broken_06_nor_gl_1k.png`),
+    aoMap: textureLoader.load(`${assetBaseUrl}image/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg`),
   }
   wallTure.roughnessMap = wallTure.aoMap
   wallTure.metalnessMap = wallTure.aoMap
@@ -106,9 +107,9 @@ export default function mountExample({ canvas, container }) {
 
   // 地板
   let floorTure = {
-    map: textureLoader.load('/src/static/image/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_diff_1k.jpg'),
-    normalMap: textureLoader.load('/src/static/image/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_nor_gl_1k.jpg'),
-    aoMap: textureLoader.load('/src/static/image/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg'),
+    map: textureLoader.load(`${assetBaseUrl}image/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_diff_1k.jpg`),
+    normalMap: textureLoader.load(`${assetBaseUrl}image/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_nor_gl_1k.jpg`),
+    aoMap: textureLoader.load(`${assetBaseUrl}image/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg`),
   }
   floorTure.roughnessMap = floorTure.aoMap
   floorTure.metalnessMap = floorTure.aoMap
