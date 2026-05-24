@@ -5,7 +5,7 @@ import { watchCanvasSize } from '@/examples/shared/canvas';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { GroundedSkybox } from 'three/addons/objects/GroundedSkybox.js';
-import { HDRLoader } from 'three/examples/jsm/Addons.js';
+import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 export default function mountExample({ canvas, container }) {
   const sceneSize = {

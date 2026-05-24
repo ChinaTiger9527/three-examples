@@ -1,14 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import ExamplesView from '@/views/ExamplesView.vue';
-import ExampleRunnerView from '@/views/ExampleRunnerView.vue';
-import ScrollLabView from '@/examples/09-scroll-animation/index.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: () => import('@/views/HomeView.vue'),
     meta: {
       layout: 'default',
     },
@@ -16,7 +12,7 @@ const routes = [
   {
     path: '/examples',
     name: 'examples',
-    component: ExamplesView,
+    component: () => import('@/views/ExamplesView.vue'),
     meta: {
       layout: 'default',
     },
@@ -24,7 +20,7 @@ const routes = [
   {
     path: '/examples/:slug',
     name: 'example-runner',
-    component: ExampleRunnerView,
+    component: () => import('@/views/ExampleRunnerView.vue'),
     meta: {
       layout: 'default',
     },
@@ -32,7 +28,7 @@ const routes = [
   {
     path: '/scroll-lab',
     name: 'scroll-lab',
-    component: ScrollLabView,
+    component: () => import('@/examples/09-scroll-animation/index.vue'),
     meta: {
       layout: 'immersive',
     },

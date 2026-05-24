@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { HDRLoader } from 'three/examples/jsm/Addons.js';
+import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { watchCanvasSize } from '@/examples/shared/canvas';
