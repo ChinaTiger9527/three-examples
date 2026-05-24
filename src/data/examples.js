@@ -116,6 +116,13 @@ export const examples = [
     file: '@/examples/15-pass/index.js',
     note: '后期处理效果示例。',
     to: '/examples/pass',
+  }, {
+    id: '16',
+    slug: 'load-progress',
+    name: '加载进度',
+    file: '@/examples/16-load-progress/index.js',
+    note: '显示资源加载进度。',
+    to: '/examples/load-progress',
   }
 ];
 
@@ -134,6 +141,7 @@ export const exampleLoaders = {
   'environment-map': () => import('@/examples/13-environment-map/index.js'),
   'realistic-render': () => import('@/examples/14-realistic-render/index.js'),
   'pass': () => import('@/examples/15-pass/index.js'),
+  'load-progress': () => import('@/examples/16-load-progress/index.js'),
 };
 
 export function getExampleBySlug(slug) {
