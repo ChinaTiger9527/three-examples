@@ -172,5 +172,6 @@ export default function mountExample({ canvas, container }) {
     stopWatchingSize();
     controls.dispose();
     renderer?.dispose();
+    gui.destroy();
   };
 }

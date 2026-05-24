@@ -109,6 +109,13 @@ export const examples = [
     file: '@/examples/14-realistic-render/index.js',
     note: '实现更真实的环境反射。',
     to: '/examples/realistic-render',
+  }, {
+    id: '15',
+    slug: 'pass',
+    name: '后期处理 Pass',
+    file: '@/examples/15-pass/index.js',
+    note: '后期处理效果示例。',
+    to: '/examples/pass',
   }
 ];
 
@@ -126,6 +133,7 @@ export const exampleLoaders = {
   raycaster: () => import('@/examples/12-raycaster/index.js'),
   'environment-map': () => import('@/examples/13-environment-map/index.js'),
   'realistic-render': () => import('@/examples/14-realistic-render/index.js'),
+  'pass': () => import('@/examples/15-pass/index.js'),
 };
 
 export function getExampleBySlug(slug) {
