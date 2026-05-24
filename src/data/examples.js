@@ -123,6 +123,14 @@ export const examples = [
     file: '@/examples/16-load-progress/index.js',
     note: '显示资源加载进度。',
     to: '/examples/load-progress',
+  },
+  {
+    id: '17',
+    slug: 'machine-animation',
+    name: '机器人跳舞动画',
+    file: '@/examples/17-machine-animation/index.js',
+    note: '机器人跳舞动画示例。',
+    to: '/examples/machine-animation',
   }
 ];
 
@@ -142,6 +150,7 @@ export const exampleLoaders = {
   'realistic-render': () => import('@/examples/14-realistic-render/index.js'),
   'pass': () => import('@/examples/15-pass/index.js'),
   'load-progress': () => import('@/examples/16-load-progress/index.js'),
+  'machine-animation': () => import('@/examples/17-machine-animation/index.js'),
 };
 
 export function getExampleBySlug(slug) {

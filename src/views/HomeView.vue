@@ -1,11 +1,10 @@
 <template>
   <section class="hero">
     <div class="hero__content">
-      <p class="hero__eyebrow">项目已完成基础栈改造</p>
+      <p class="hero__eyebrow">three学习项目</p>
       <h2>用 Vue 全家桶承载 Three.js 学习内容</h2>
       <p class="hero__description">
-        当前入口已经切换为 Vue 3 单页应用，并接入了 Vue Router、Pinia 和 Sass。
-        现在 01-08 已经按独立目录管理，并且可以从示例目录页逐个打开访问。
+        这个项目的初衷是为自己搭建一个轻量、易扩展的 Three.js 学习平台，记录学习过程中的笔记和示例代码。
       </p>
     </div>
 
